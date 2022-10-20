@@ -99,45 +99,73 @@ public class DataManager {
 
         output.put("vehicle_id",parseInt(params.get("vehicle_id")));
 
-        int current_month = Calendar.getInstance().get(Calendar.MONTH)+1;
-        int current_year = Calendar.getInstance().get(Calendar.YEAR);
+        output.put("current_month",Calendar.getInstance().get(Calendar.MONTH)+1);
+        output.put("current_year",Calendar.getInstance().get(Calendar.YEAR));
+
+        output.put("customer_id", parseInt(db.query("select id from customers where email = '"+params.get("email")+"';").get(0).get("id")));
+
+        output.put("tax_rate", parseDouble(db.query("select tax from taxes join vehicles on taxes.country_code = vehicles.country_code where vehicles.id = "+params.get("vehicle_id")+";").get(0).get("tax")));
+
+        output.put("vehicle_price",parseDouble(db.query("select price from vehicles where vehicles.id = "+params.get("vehicle_id")+";").get(0).get("price")));
+
+        output.put("paid_tax",(double)output.get("vehicle_price")*(double)output.get("tax_rate"));
+
+        output.put("total_amount",(double)output.get("vehicle_price")*(1+(double)output.get("tax_rate")));
+
+        output.put("amount_after_credit",(double)output.get("vehicle_price")*(1+(double)output.get("tax_rate"))-(int)output.get("credit_amount"));
+
+        return output;
     }
 
     public static void insertOrderInDb(Map<String,String> params) throws Exception {
-        // TODO parseOrderParams()
+        Map<String, Object> p = parseOrderParams(params);
 
-        if(card_expiry_year < current_year){
+        if((int) p.get("card_expiry_year") < (int) p.get("current_year")){
             throw new Exception("card_expiry_year too high");
-        } else if(card_expiry_year == current_year && card_expiry_month < current_month){
+        } else if(p.get("card_expiry_year") == p.get("current_year") && (int) p.get("card_expiry_month") < (int) p.get("current_month")){
             throw new Exception("card_expiry_month too high for same year");
         }
 
         // Check if a user already exist in the db with the same email address
-        ArrayList user_already_exist_check = db.query("select * from customers where email = '"+email+"'");
+        ArrayList user_already_exist_check = db.query("select * from customers where email = '"+p.get("email")+"'");
         if(user_already_exist_check.size() == 0){
             // If the user doesn't already exist, we insert it in the database.
-            db.query("insert into customers (last_name, first_name, birthdate, address, email, phone) values ('"+last_name+"','"+first_name+"','"+birthdate+"','"+address+"','"+email+"','"+phone+"');");
+            db.query("insert into customers (last_name, first_name, birthdate, address, email, phone) values ('"+p.get("last_name")+"','"+p.get("first_name")+"','"+p.get("birthdate")+"','"+p.get("address")+"','"+p.get("email")+"','"+p.get("phone")+"');");
         }
 
         // We then select the id of the customer
-        int customer_id = parseInt(db.query("select id from customers where email = '"+email+"';").get(0).get("id"));
+        int customer_id = parseInt(db.query("select id from customers where email = '"+p.get("email")+"';").get(0).get("id"));
         // We get the tax rate
-        double tax_rate = parseDouble(db.query("select tax from taxes join vehicles on taxes.country_code = vehicles.country_code where vehicles.id = "+vehicle_id+";").get(0).get("tax"));
-        double vehicle_price = parseDouble(db.query("select price from vehicles where vehicles.id = "+vehicle_id+";").get(0).get("price"));
+        double tax_rate = parseDouble(db.query("select tax from taxes join vehicles on taxes.country_code = vehicles.country_code where vehicles.id = "+p.get("vehicle_id")+";").get(0).get("tax"));
+        double vehicle_price = parseDouble(db.query("select price from vehicles where vehicles.id = "+p.get("vehicle_id")+";").get(0).get("price"));
         // We then create the order
-        db.query("insert into orders (vehicle_id, customer_id, status, credit, credit_amount, credit_rate, credit_currency, card_number, card_expiry, card_cvv, paid_tax, total_amount, amount_after_credit) values ("+vehicle_id+", "+customer_id+", 'validated', "+credit_bool+", "+credit_amount+", "+defaultCreditRate+", 'EUR', '"+card_number+"', '"+card_expiry+"', "+card_cvv+", "+vehicle_price*tax_rate+", "+vehicle_price*(1+tax_rate)+", "+(vehicle_price*(1+tax_rate)-credit_amount)+");");
+        db.query("insert into orders (vehicle_id, customer_id, status, credit, credit_amount, credit_rate, credit_currency, card_number, card_expiry, card_cvv, paid_tax, total_amount, amount_after_credit) values ("+p.get("vehicle_id")+", "+customer_id+", 'validated', "+p.get("credit_bool")+", "+p.get("credit_amount")+", "+defaultCreditRate+", 'EUR', '"+p.get("card_number")+"', '"+p.get("card_expiry")+"', "+p.get("card_cvv")+", "+vehicle_price*tax_rate+", "+vehicle_price*(1+tax_rate)+", "+(vehicle_price*(1+tax_rate)-(int)p.get("credit_amount"))+");");
         // We now set the vehicle 'ordered' column to true, so it is removed from the available list
-        db.query("update vehicles set ordered = true where id = "+vehicle_id+";");
+        db.query("update vehicles set ordered = true where id = "+p.get("vehicle_id")+";");
     }
 
     public static String showOrderConfirmation(Map<String,String> params){
+        Map<String, Object> p = parseOrderParams(params);
         // TODO insertOrderInDb()
         String output = "<h1>Thanks for your purchase</h1>";
         output += "<p>Your purchase have been validated</p>";
-        output += params.toString();
+        output += "<p>Here are your purchase information. You may also download the necessary documents below. Your vehicle will be delivered shortly. You may track your order by clicking <a href='track?id="+p.get("vehicle_id")+"' target='_blank'>here</a>.</p>";
+        output += "<ul>" +
+                "<li>Name :"+p.get("first_name")+" "+p.get("last_name")+"</li>"+
+                "<li>Email :"+p.get("email")+"</li>"+
+                "<li>Phone :"+p.get("phone")+"</li>"+
+                "<li>Birthdate :"+p.get("birthdate")+"</li>"+
+                "<li>Address :"+p.get("address")+"</li>"+
+                "<li>Credit :"+params.get("credit_bool")+"</li>"+
+                "<li>Credit rate (if applicable) :"+defaultCreditRate+"</li>"+
+                "<li>Credit amount (if applicable) :"+p.get("credit_amount")+"</li>"+
+                "<li>Payment card :"+((String)p.get("card_number")).substring(0,4)+" xxxx xxxx "+((String)p.get("card_number")).substring(((String) p.get("card_number")).length(),-4)+" "+p.get("card_expiry_month")+"/"+p.get("card_expiry_year")+ "xxx</li>"+
+                "</ul>";
+        // TODO add the vehicle_price (with and without taxes + taxes) in the confirmation page (adding them in the parseOrder())
         return output;
     }
 
+    // TODO To delete getUrlParams
     public static Map<String,String> getUrlParams(String params){
         // Source : https://stackoverflow.com/questions/11640025/how-to-obtain-the-query-string-in-a-get-with-java-httpserver-httpexchange
 
