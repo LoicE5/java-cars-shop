@@ -1,14 +1,19 @@
+package pages;
+
 import com.sun.net.httpserver.HttpExchange;
+
+import tools.DataManager;
+import tools.Utils;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
-import static java.lang.Integer.parseInt;
+public class SearchPage extends Page {
 
-public class ConfirmationPage extends Page{
-    public ConfirmationPage() {
+    public SearchPage() {
         super();
+        super.html = DataManager.insertHTML(Utils.getFileAsString("./web_resources/searchbar.html"),html);
     }
 
     @Override
@@ -16,8 +21,14 @@ public class ConfirmationPage extends Page{
 
         String response = super.html;
         Map<String,String> params = getUrlParams(exchange);
+        String query;
+        try {
+            query = params.get("query");
+        } catch(Exception e){
+            query = null;
+        }
 
-        response = DataManager.insertHTML(DataManager.showOrderConfirmation(params),response);
+        response = DataManager.insertHTML(Homepage.showAvailableVehicles(query),response);
 
         // Sending the response
         exchange.sendResponseHeaders(200, response.getBytes().length);
@@ -26,4 +37,3 @@ public class ConfirmationPage extends Page{
         os.close();
     }
 }
-

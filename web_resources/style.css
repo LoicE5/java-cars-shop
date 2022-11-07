@@ -1,0 +1,48 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.hidden {
+    display: none !important
+}
+
+.no-vehicles-available, .no-orders {
+    color: orange;
+    font-style: italic;
+}
+
+.track-order-container {
+    background-color: white;
+    border: solid 1px black;
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.track-order-status {
+    font-weight: bold;
+}
+
+.status-pending {
+    color: orange;
+}
+
+.status-validated {
+    color: green;
+}
+
+.status-delivered {
+    color: blue;
+}
+
+.discounted-item {
+    color: tomato;
+    font-weight: bold;
+    font-style: italic;
+}

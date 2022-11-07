@@ -1,7 +1,9 @@
+package pages;
+
+import tools.Utils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -11,15 +13,10 @@ class Page implements HttpHandler {
     public String html;
 
     public Page() {
-        this.html = "<html><head><title>Cars</title></head><body></body></html>";
-        this.html = DataManager.insertCSS(DataManager.css,this.html);
+        this.html = Utils.getFileAsString("./web_resources/base_html.html");
     }
 
-    public Page(String html) {
-        this.html = html;
-    }
-
-    protected Map<String,String> getUrlParams(HttpExchange exchange){
+    protected static Map<String,String> getUrlParams(HttpExchange exchange){
         // Source : https://stackoverflow.com/questions/11640025/how-to-obtain-the-query-string-in-a-get-with-java-httpserver-httpexchange
         String params = exchange.getRequestURI().getQuery();
 

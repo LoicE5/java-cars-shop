@@ -1,0 +1,60 @@
+<form action="confirmation" method="get">
+    <section id="about-you">
+        <h3>About you</h3> <label for="last_name">Last name</label> <input type="text" name="last_name" id="last_name"
+            required> <br><br><label for="first_name">First name</label> <input type="text" name="first_name"
+            id="first_name" required> <br><br><label for="birthdate">Birthdate</label> <input type="date"
+            name="birthdate" id="birthdate" required> <br><br><label for="address">Address</label> <input type="text"
+            name="address" id="address" required> <br><br><label for="email">Email</label> <input type="email"
+            name="email" id="email" required> <br><br><label for="phone">Phone</label> <input type="tel" name="phone"
+            id="phone"> <br><br>
+    </section>
+    <section id="payment">
+        <h3>Payment</h3>
+        <h4>Credit</h4> <label for="credit_bool">Do you need a credit ?</label> <br><input type="radio"
+            name="credit_bool" id="credit_bool_yes" value="yes" onchange="hideCredit()"> <label
+            for="credit_bool_yes">Yes</label> <input type="radio" name="credit_bool" id="credit_bool_no" value="no"
+            checked onchange="hideCredit()"> <label for="credit_bool_no">No</label> <br><br>
+        <div id="credit-form-wrapper" class="hidden"> <label for="credit_amount">Please enter the desired amount of
+                credit for your purchase (in euros)</label> <input type="number" name="credit_amount" id="credit_amount"
+                min="0" max="{%price%}" value="0">
+            <div>Current credit rate : 5%</div>
+        </div>
+        <h4>Bank card</h4> <label for="card_number">Card number</label> <input id="card_number" name="card_number"
+            type="tel" inputmode="numeric" pattern="[0-9s]{13,19}" autocomplete="cc-number" maxlength="19"
+            placeholder="xxxx xxxx xxxx xxxx" required> <br><br><label for="expiry">Expiration date</label> <select
+            name="card_expiry_month" id="card_expiry_month" required>
+            <option value="">Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select> <select name="card_expiry_year" id="card_expiry_year" required>
+            <option value="">Year</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+            <option value="2031">2031</option>
+        </select> <input class="inputCard" type="hidden" name="card_expiry" id="card_expiry" maxlength="4" required />
+        <br><br><label for="card_cvv">CVV/CVC</label> <input type="tel" name="card_cvv" id="card_cvv" maxlength="3"
+            pattern="[0-9s]{0,3}"> <input type="hidden" name="vehicle_id" value="{%id%}">
+    </section> <br><br><button type="submit">Confirm purchase</button>
+    <script>
+        function hideCredit() {
+            document.querySelector("#credit-form-wrapper").classList.toggle("hidden");
+        }
+    </script>
+</form>

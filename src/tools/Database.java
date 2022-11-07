@@ -1,8 +1,11 @@
+package tools;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Database {
+    /* This class and all of its methods have been created by Loïc Etienne & Fares Ezzaouia. */
     private final String protocol;
     private final String host;
     private final int port;
@@ -20,26 +23,10 @@ public class Database {
     }
 
     public ArrayList<HashMap<String, String>> query(String sql){
-        try{
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con=DriverManager.getConnection(
-                    "jdbc:"+this.protocol+"://"+this.host+":"+this.port+"/"+this.db_name
-                    ,this.username,this.password);
-
-            Statement stmt=con.createStatement();
-
-            if(sql.substring(0,10).contains("insert") || sql.substring(0,10).contains("update") || sql.substring(0,10).contains("delete")){
-                stmt.executeUpdate(sql);
-                return new ArrayList<HashMap<String, String>>();
-            }
-
-            ResultSet rs=stmt.executeQuery(sql);
-            ResultSetMetaData rsMetaData = rs.getMetaData();
-
-            return rsToDict(rs, rsMetaData);
-
-        } catch(Exception e){
+        try {
+            return this.queryWithException(sql);
+        }
+        catch(Exception e){
             System.out.println(e);
             return new ArrayList<HashMap<String, String>>();
         }
@@ -72,4 +59,22 @@ public class Database {
         return result;
     }
 
+    public ArrayList<HashMap<String, String>> queryWithException(String sql) throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con=DriverManager.getConnection(
+                "jdbc:"+this.protocol+"://"+this.host+":"+this.port+"/"+this.db_name
+                ,this.username,this.password);
+
+        Statement stmt=con.createStatement();
+
+        if(sql.substring(0,10).contains("insert") || sql.substring(0,10).contains("update") || sql.substring(0,10).contains("delete")){
+            stmt.executeUpdate(sql);
+            return new ArrayList<HashMap<String, String>>();
+        }
+
+        ResultSet rs = stmt.executeQuery(sql);
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+
+        return rsToDict(rs, rsMetaData);
+    }
 }

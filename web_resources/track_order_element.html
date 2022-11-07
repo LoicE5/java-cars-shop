@@ -1,0 +1,33 @@
+<div class="track-order-container">
+    <h3>{%brand%}&nbsp;{%model%}</h3>
+    <ul>
+        <!-- Status are among : pending, validated, delivered -->
+        <li class="track-order-status status-{%status%}">Status : {%status%}</li>
+        <h4>Vehicle</h4>
+        <li>Brand :{%brand%} </li>
+        <li>Model : {%model%}</li>
+        <li>Type : {%type%}</li>
+        <li>Publishing date : {%publishing_date%}</li>
+        <li>Location : {%location%}</li>
+        <li>Meter : {%meter%}</li>
+
+        <h4>Payment</h4>
+        <li>Price : {%price%} {%currency%}</li>
+        <li>Tax ({%country_code%}) : {%paid_tax%}</li>
+        <li>Total amount : {%total_amount%}</li>
+        <li>Credit : {%credit_bool%}</li>
+        <li>Credit amount (if applicable) : {%credit_amount%} {%credit_currency%}</li>
+        <li>Credit rate (if applicable) : {%credit_rate%}</li>
+        <li>Amount after credit (if applicable) : {%amount_after_credit%}</li>
+
+        <h5>Card</h5>
+        <li>Card number : {%anonymised_card_number%}</li>
+        <li>Card expiry : {%card_expiry%}</li>
+        <li>Card CVV : {%card_cvv%}</li>
+
+        <h4>About you</h4>
+        <li>Name : {%first_name%}&nbsp;{%last_name%}</li>
+        <li>Delivery address : {%address%}</li>
+        <li>Phone : {%anonymised_phone%}</li>
+    </ul>
+</div>
