@@ -4,7 +4,6 @@ import tools.DataManager;
 import tools.Database;
 import tools.Utils;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,9 +26,9 @@ public class Homepage extends Page {
         ArrayList<HashMap<String, String>> query;
 
         if(search == null || search.equals("")){
-            query = db.query("select * from vehicles where ordered is false;");
+            query = db.query("select * from vehicles where stock > 0;");
         } else {
-            query = db.query("select * from vehicles where ordered is false and (model like '%"+search+"%' or brand like '%"+search+"%' or location like '%"+search+"%');");
+            query = db.query("select * from vehicles where stock > 0 and (model like '%"+search+"%' or brand like '%"+search+"%' or location like '%"+search+"%');");
         }
 
         if(query.size() == 0){
@@ -53,6 +52,7 @@ public class Homepage extends Page {
                     "<li>Date of publishing : " + row.get("publishing_date") + "</li>" +
                     "<li>Location : " + row.get("location") + "</li>" +
                     "<li>Country : " + row.get("country_code") + "</li>" +
+                    "<li>Remaining in stock : " + row.get("stock") + "</li>" +
                     "<li>Price (excluding taxes): " + row.get("price") + row.get("currency") + "</li>" +
                     "<li>Tax rate: " + tax_rate + "</li>" +
                     "<li>Total price: " + parseDouble(row.get("price"))*(1+tax_rate) + row.get("currency") + "</li>" +

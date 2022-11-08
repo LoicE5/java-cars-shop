@@ -21,7 +21,7 @@ public class OrderPage extends Page {
     private static final Database db = DataManager.getDb();
 
     public static String showPurchaseForm(int vehicleId) {
-        HashMap<String, String> query = db.query("select * from vehicles where ordered is false and id = " + vehicleId + ";").get(0);
+        HashMap<String, String> query = db.query("select * from vehicles where stock > 0 and id = " + vehicleId + ";").get(0);
 
         String output = "<h1>Purchase a vehicle</h1>";
         output += "<h2>Your purchase</h2>";
@@ -34,12 +34,13 @@ public class OrderPage extends Page {
                 "<li>Date of publishing : " + query.get("publishing_date") + "</li>" +
                 "<li>Location : " + query.get("location") + "</li>" +
                 "<li>Country : " + query.get("country_code") + "</li>" +
-                "<li>Price : " + query.get("price") + query.get("currency") + "</li>" +
+                "<li>Price : <span id='order-price'>" + query.get("price")+"</span>&nbsp;" + query.get("currency") + "</li>" +
                 "</ul>";
 
         output += Utils.getFileAsString("./web_resources/order_form.html")
                 .replace("{%price%}",query.get("price"))
-                .replace("{%id%}",query.get("id"));
+                .replace("{%id%}",query.get("id"))
+                .replace("{%stock%}",query.get("stock"));
 
         return output;
     }
