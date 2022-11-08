@@ -59,7 +59,8 @@ public class TrackPage extends Page {
             .replace("{%meter%}",order.get("meter"))
             .replace("{%publishing_date%}",order.get("publishing_date"))
             .replace("{%location%}",order.get("location"))
-            .replace("{%currency%}",order.get("currency"));
+            .replace("{%currency%}",order.get("currency"))
+            .replace("{%quantity%}",order.get("quantity"));
         }
 
         return output;

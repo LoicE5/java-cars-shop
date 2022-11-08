@@ -1,22 +1,49 @@
+<!--suppress ALL -->
 <form action="confirmation" method="get">
     <section id="about-you">
-        <h3>About you</h3> <label for="last_name">Last name</label> <input type="text" name="last_name" id="last_name"
-            required> <br><br><label for="first_name">First name</label> <input type="text" name="first_name"
-            id="first_name" required> <br><br><label for="birthdate">Birthdate</label> <input type="date"
-            name="birthdate" id="birthdate" required> <br><br><label for="address">Address</label> <input type="text"
-            name="address" id="address" required> <br><br><label for="email">Email</label> <input type="email"
-            name="email" id="email" required> <br><br><label for="phone">Phone</label> <input type="tel" name="phone"
-            id="phone"> <br><br>
+        <h3>About you</h3>
+        <label for="last_name">Last name</label>
+        <input type="text" name="last_name" id="last_name" required>
+        <br><br>
+        <label for="first_name">First name</label>
+        <input type="text" name="first_name" id="first_name" required>
+        <br><br>
+        <label for="birthdate">Birthdate</label>
+        <input type="date" name="birthdate" id="birthdate" required>
+        <br><br>
+        <label for="company">Company <i>(optional)</i></label>
+        <input type="text" name="company" id="company" onchange="hideMultipleVehiclesPurchase(this)">
+        <br><br>
+        <label for="address">Address</label>
+        <input type="text" name="address" id="address" required>
+        <br>
+        <i>If you order on behalf of a company, please set the company's desired delivery address.</i>
+        <br><br>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required>
+        <br><br>
+        <label for="phone">Phone</label>
+        <input type="tel" name="phone" id="phone">
+        <br><br>
     </section>
     <section id="payment">
         <h3>Payment</h3>
-        <h4>Credit</h4> <label for="credit_bool">Do you need a credit ?</label> <br><input type="radio"
-            name="credit_bool" id="credit_bool_yes" value="yes" onchange="hideCredit()"> <label
-            for="credit_bool_yes">Yes</label> <input type="radio" name="credit_bool" id="credit_bool_no" value="no"
-            checked onchange="hideCredit()"> <label for="credit_bool_no">No</label> <br><br>
-        <div id="credit-form-wrapper" class="hidden"> <label for="credit_amount">Please enter the desired amount of
-                credit for your purchase (in euros)</label> <input type="number" name="credit_amount" id="credit_amount"
-                min="0" max="{%price%}" value="0">
+        <div id="quantity-wrapper" class="hidden">
+            <label for="quantity">How many cars do you want to purchase ?</label>
+            <br>
+            <input type="number" name="quantity" id="quantity" min="1" max="{%stock%}" value="1" onchange="setTotalPriceAccordingToQuantity(this)">
+        </div>
+        <h4>Credit</h4>
+        <label for="credit_bool">Do you need a credit ?</label>
+        <br>
+        <input type="radio" name="credit_bool" id="credit_bool_yes" value="yes" onchange="hideCredit()">
+        <label for="credit_bool_yes">Yes</label>
+        <input type="radio" name="credit_bool" id="credit_bool_no" value="no" checked onchange="hideCredit()">
+        <label for="credit_bool_no">No</label>
+        <br><br>
+        <div id="credit-form-wrapper" class="hidden">
+            <label for="credit_amount">Please enter the desired amount of credit for your purchase (in euros)</label>
+            <input type="number" name="credit_amount" id="credit_amount" min="0" max="{%price%}" value="0">
             <div>Current credit rate : 5%</div>
         </div>
         <h4>Bank card</h4> <label for="card_number">Card number</label> <input id="card_number" name="card_number"
@@ -48,13 +75,39 @@
             <option value="2029">2029</option>
             <option value="2030">2030</option>
             <option value="2031">2031</option>
-        </select> <input class="inputCard" type="hidden" name="card_expiry" id="card_expiry" maxlength="4" required />
-        <br><br><label for="card_cvv">CVV/CVC</label> <input type="tel" name="card_cvv" id="card_cvv" maxlength="3"
-            pattern="[0-9s]{0,3}"> <input type="hidden" name="vehicle_id" value="{%id%}">
-    </section> <br><br><button type="submit">Confirm purchase</button>
+        </select> 
+        <input class="inputCard" type="hidden" name="card_expiry" id="card_expiry" maxlength="4" required />
+        <br><br>
+        <label for="card_cvv">CVV/CVC</label> <input type="tel" name="card_cvv" id="card_cvv" maxlength="3" pattern="[0-9s]{0,3}"> <input type="hidden" name="vehicle_id" value="{%id%}">
+    </section> 
+    <br><br>
+    <button type="submit">Confirm purchase</button>
     <script>
+        const orderPrice = document.querySelector("#order-price");
+        const initialUnitPrice = Number(orderPrice.innerText);
+
         function hideCredit() {
             document.querySelector("#credit-form-wrapper").classList.toggle("hidden");
+        }
+
+        function hideMultipleVehiclesPurchase(inputElement){
+            const quantityWrapper = document.querySelector("#quantity-wrapper");
+
+            if(inputElement.value != "" && inputElement.value != null){
+                quantityWrapper.classList.remove("hidden");
+            } else {
+                quantityWrapper.classList.add("hidden");
+            }
+        }
+
+        function setTotalPriceAccordingToQuantity(inputElement){
+            let quantity = Number(inputElement.value);
+            const creditAmountInput = document.querySelector("#credit_amount");
+
+            let newPrice = initialUnitPrice * quantity;
+
+            orderPrice.innerHTML = newPrice;
+            creditAmountInput.max = newPrice;
         }
     </script>
 </form>
