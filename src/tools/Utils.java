@@ -29,4 +29,14 @@ public class Utils {
         return input.substring(0, 1).toUpperCase() + input.substring(1);
     }
 
+    public static String numberToString(Number number){
+        return number+"";
+    }
+
+    public static String escapeSQLChars(String input){
+        return input
+            .replace("'","")
+            .replace("\"","");
+    }
+
 }

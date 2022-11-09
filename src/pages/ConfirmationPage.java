@@ -26,19 +26,19 @@ public class ConfirmationPage extends Page {
     public static Map<String, Object> parseOrderParams(Map<String,String> params){
         Map<String, Object> output = new HashMap<String, Object>();
 
-        output.put("first_name",params.get("first_name"));
-        output.put("last_name",params.get("last_name"));
-        output.put("birthdate",params.get("birthdate"));
-        output.put("address",params.get("address").replace("+"," "));
-        output.put("company",params.get("company").replace("+"," "));
+        output.put("first_name",Utils.escapeSQLChars(params.get("first_name")));
+        output.put("last_name",Utils.escapeSQLChars(params.get("last_name")));
+        output.put("birthdate",Utils.escapeSQLChars(params.get("birthdate")));
+        output.put("address",Utils.escapeSQLChars(params.get("address").replace("+"," ")));
+        output.put("company",Utils.escapeSQLChars(params.get("company").replace("+"," ")));
         output.put("quantity",parseInt(params.get("quantity")));
-        output.put("email",params.get("email").replace("%40","@").replace(" ",""));
-        output.put("phone",params.get("phone").replace("+",""));
+        output.put("email",Utils.escapeSQLChars(params.get("email").replace("%40","@").replace(" ","")));
+        output.put("phone",Utils.escapeSQLChars(params.get("phone").replace("+","")));
 
         output.put("credit_bool",(params.get("credit_bool").equals("yes")));
         output.put("credit_amount",parseDouble(params.get("credit_amount")));
 
-        output.put("card_number",params.get("card_number").replace("+"," "));
+        output.put("card_number",Utils.escapeSQLChars(params.get("card_number").replace("+"," ")));
         output.put("card_expiry_month",parseInt(params.get("card_expiry_month")));
         output.put("card_expiry_year",parseInt(params.get("card_expiry_year")));
         output.put("card_expiry",(output.get("card_expiry_year") + "-"+ output.get("card_expiry_month") + "-"+ "01"));
@@ -64,7 +64,6 @@ public class ConfirmationPage extends Page {
 
     public static void insertOrderInDb(Map<String,String> params) throws Exception {
         Map<String, Object> p = parseOrderParams(params);
-        System.out.println(params);
 
         if((int) p.get("card_expiry_year") < (int) p.get("current_year")){
             throw new Exception("card_expiry_year too high");
@@ -104,30 +103,28 @@ public class ConfirmationPage extends Page {
 
         String anonymised_card_number = ((String)p.get("card_number")).substring(0,4)+" xxxx xxxx "+ Utils.getLastSubstring((String)p.get("card_number"),4);
 
-        String output = "<h1>Thanks for your purchase</h1>";
-        output += "<p>Your purchase have been validated</p>";
-        output += "<p>Here are your purchase information. You may also download the necessary documents below. Your vehicle will be delivered shortly. You may track your order by clicking <a href='track?email="+p.get("email")+"'>here</a>.</p>";
-        output += "<ul>" +
-                "<li>Name : "+p.get("first_name")+" "+p.get("last_name")+"</li>"+
-                "<li>Email : "+p.get("email")+"</li>"+
-                "<li>Phone : "+p.get("phone")+"</li>"+
-                "<li>Birthdate : "+p.get("birthdate")+"</li>"+
-                "<li>Address : "+p.get("address")+"</li>"+
-                "<li>Quantity ordered : "+p.get("quantity")+"</li>"+
-                "<li>Credit : "+params.get("credit_bool")+"</li>"+
-                "<li>Credit rate (if applicable) : "+getDefaultCreditRate()+"</li>"+
-                "<li>Credit amount (if applicable) : "+p.get("credit_amount")+"</li>"+
-                "<li>Payment card : "+anonymised_card_number+" | "+p.get("card_expiry_month")+"/"+p.get("card_expiry_year")+" | xxx</li>"+
-                "<li>Unitary price without taxes : "+p.get("vehicle_price")+"</li>"+
-                "<li>Tax rate : "+(double)p.get("tax_rate")*100+"%</li>"+
-                "<li>Total paid tax : "+p.get("paid_tax")+"</li>"+
-                "<li>Final price (for "+p.get("quantity")+" items), including taxes : "+p.get("total_amount")+"</li>"+
-                "<li>Paid amount after credit (if applicable) : "+p.get("amount_after_credit")+"</li>"+
-                "</ul>";
+        String output = Utils.getFileAsString("./web_resources/order_confirmation.html")
+                .replace("{%email%}",(String)p.get("email"))
+                .replace("{%first_name%}",(String)p.get("first_name"))
+                .replace("{%last_name%}",(String)p.get("last_name"))
+                .replace("{%phone%}",(String)p.get("phone"))
+                .replace("{%birthdate%}",(String)p.get("birthdate"))
+                .replace("{%quantity%}",Utils.numberToString((int)p.get("quantity")))
+                .replace("{%credit_bool%}",params.get("credit_bool"))
+                .replace("{%defaultCreditRate%}",Utils.numberToString(getDefaultCreditRate()*100)+"%")
+                .replace("{%anonymised_card_number%}",anonymised_card_number)
+                .replace("{%card_expiry_month%}",Utils.numberToString((int)p.get("card_expiry_month")))
+                .replace("{%card_expiry_year%}",Utils.numberToString((int)p.get("card_expiry_year")))
+                .replace("{%vehicle_price%}",Utils.numberToString((double)p.get("vehicle_price")))
+                .replace("{%tax_rate%}",Utils.numberToString((double)p.get("tax_rate")*100))
+                .replace("{%paid_tax%}",Utils.numberToString((double)p.get("paid_tax")))
+                .replace("{%birthdate%}",(String)p.get("birthdate"))
+                .replace("{%total_amount%}",Utils.numberToString((double)p.get("total_amount")))
+                .replace("{%amount_after_credit%}",Utils.numberToString((double)p.get("amount_after_credit")))
+                .replace("{%credit_amount%}",Utils.numberToString((double)p.get("credit_amount")))
+                .replace("{%address%}",(String)p.get("address"));
+
         // TODO ajouter les liens vers la carte grise et le reste (...)
-
-        output += "<a href='track?email="+p.get("email")+"'>Track my orders</a>";
-
         return output;
     }
 

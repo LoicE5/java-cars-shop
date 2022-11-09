@@ -1,0 +1,23 @@
+<h1>Thanks for your purchase</h1>
+<p>Your purchase have been validated</p>
+<p>Here are your purchase information. You may also download the necessary documents below. Your vehicle will be delivered shortly. You may track your order by clicking <a href="track?email={%email%}">here</a>.</p>
+
+<ul> 
+    <li>Name : {%first_name%} {%last_name%}</li>
+    <li>Email : {%email%}</li>
+    <li>Phone : {%phone%}</li>
+    <li>Birthdate : {%birthdate%}</li>
+    <li>Address : {%address%}</li>
+    <li>Quantity ordered : {%quantity%}</li>
+    <li>Credit : {%credit_bool%}</li>
+    <li>Credit rate (if applicable) : {%defaultCreditRate%}</li>
+    <li>Credit amount (if applicable) : {%credit_amount%}</li>
+    <li>Payment card : {%anonymised_card_number%} | {%card_expiry_month%}/{%card_expiry_year%} | xxx</li>
+    <li>Unitary price without taxes : {%vehicle_price%}</li>
+    <li>Tax rate : {%tax_rate%}%</li>
+    <li>Total paid tax : {%paid_tax%}</li>
+    <li>Final price (for {%quantity%} items), including taxes : {%total_amount%}</li>
+    <li>Paid amount after credit (if applicable) : {%amount_after_credit%}</li>
+</ul>
+
+<a href="track?email={%email%}">Track my orders</a>
