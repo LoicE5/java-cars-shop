@@ -17,11 +17,11 @@ public class Utils {
             if(isRunningFromJar()){
                 String absoluteRoot = URLDecoder.decode((new File(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(".")).getPath())).getAbsolutePath());
                 Scanner scan= new Scanner(new FileReader(path.replace("./",absoluteRoot+"/")));
-                String output = "";
+                StringBuilder output = new StringBuilder();
                 while(scan.hasNext()){
-                    output += scan.next()+" ";
+                    output.append(scan.next()).append(" ");
                 }
-                return output;
+                return output.toString();
             } else {
                 return Files.readString(Path.of(path));
             }
