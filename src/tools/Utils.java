@@ -1,8 +1,9 @@
 package tools;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import org.apache.commons.io.IOUtils;
+
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 
 public class Utils {
     public static String getLastSubstring(String input, int index){
@@ -10,8 +11,12 @@ public class Utils {
     }
     public static String getFileAsString(String path){
         try {
-            return Files.readString(Path.of(path));
-        } catch (IOException e){
+            FileInputStream file;
+            file = new FileInputStream(path);
+            String output = IOUtils.toString(file, StandardCharsets.UTF_8);
+            file.close();
+            return output;
+        } catch (Exception e){
             System.out.println(e);
             return "";
         }
