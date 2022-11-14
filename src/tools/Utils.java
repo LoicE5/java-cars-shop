@@ -13,6 +13,7 @@ public class Utils {
         return input.substring(input.length()-index);
     }
     public static String getFileAsString(String path){
+        // Inspired from : https://stackoverflow.com/questions/320542/how-to-get-the-path-of-a-running-jar-file
         try {
             if(isRunningFromJar()){
                 String absoluteRoot = URLDecoder.decode((new File(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(".")).getPath())).getAbsolutePath());
