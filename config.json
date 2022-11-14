@@ -1,10 +1,12 @@
 {
-  "database": {
-    "protocol": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "db_name": "java_cars",
-    "username": "root",
-    "password": ""
-  }
+    "database": {
+        "protocol": "mysql",
+        "host": "localhost",
+        "port": 3306,
+        "db_name": "java_cars",
+        "username": "root",
+        "password": ""
+    },
+    "default_credit_rate": 0.05,
+    "default_discounted_price": 0.8
 }

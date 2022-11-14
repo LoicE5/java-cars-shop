@@ -3,7 +3,9 @@ package tools;
 import java.util.HashMap;
 
 public class DataManager {
-    private static final HashMap db_settings = (HashMap) Utils.readJsonFile("./config.json").get("database");
+    private static final HashMap settings = Utils.readJsonFile("./config.json");
+    private static final HashMap db_settings = (HashMap) settings.get("database");
+
     private static final Database db = new Database(
         (String) db_settings.get("protocol"),
         (String) db_settings.get("host"),
@@ -17,8 +19,8 @@ public class DataManager {
         return db;
     }
 
-    private static final double defaultCreditRate = 0.05;
-    private static final double defaultDiscountedPrice = 0.8;
+    private static final double defaultCreditRate = (double) settings.get("default_credit_rate");
+    private static final double defaultDiscountedPrice = (double) settings.get("default_discounted_price");
 
     public static double getDefaultCreditRate(){
         return defaultCreditRate;
