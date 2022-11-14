@@ -5,8 +5,12 @@ import java.io.FileReader;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Utils {
     public static String getLastSubstring(String input, int index){
@@ -57,6 +61,15 @@ public class Utils {
         return input
             .replace("'","")
             .replace("\"","");
+    }
+
+    public static HashMap readJsonFile(String path){
+        try {
+            return new ObjectMapper().readValue(getFileAsString(path), HashMap.class);
+        } catch(JsonProcessingException e){
+            System.out.println("There have been an issue reading the following JSON file : "+path+"\n"+e);
+            return new HashMap();
+        }
     }
 
 }

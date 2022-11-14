@@ -1,13 +1,16 @@
 package tools;
 
+import java.util.HashMap;
+
 public class DataManager {
+    private static final HashMap db_settings = (HashMap) Utils.readJsonFile("./config.json").get("database");
     private static final Database db = new Database(
-        "mysql",
-        "localhost",
-        3306,
-        "java_cars",
-        "root",
-        ""
+        (String) db_settings.get("protocol"),
+        (String) db_settings.get("host"),
+        (int) db_settings.get("port"),
+        (String) db_settings.get("db_name"),
+        (String) db_settings.get("username"),
+        (String) db_settings.get("password")
     );
 
     public static Database getDb(){
