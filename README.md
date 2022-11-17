@@ -28,7 +28,7 @@ Once this is done, you may connect to mysql in CLI using :
 
 You will be prompted to enter your newly set password. Please do, then copy-paste the content of the `sample_data.sql` file. It should execute with no issues.
 
-You may now leave the sql prompte by typing `exit`.
+You may now leave the sql prompt by typing `exit`.
 
 ## Java installation
 
@@ -45,4 +45,4 @@ If you don't have make installed, you may install it via `sudo apt install make`
 
 ## Run using the CLI
 
-Open a terminal at the project's directory, then type : `java -cp "./out/production/java-cars-shop:./lib/mysql-connector-java-8.0.30.jar" Main`
+Open a terminal at the project's directory, then type : `java -classpath ./out/production/java-cars-shop:./lib/mysql-connector-java-8.0.30.jar:./lib/jackson-databind-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-core-2.13.3.jar Main`
