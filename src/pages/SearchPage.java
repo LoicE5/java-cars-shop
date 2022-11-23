@@ -12,8 +12,7 @@ import java.util.Map;
 public class SearchPage extends Page {
 
     public SearchPage() {
-        super();
-        super.html = DataManager.insertHTML(Utils.getFileAsString("./web_resources/searchbar.html"),html);
+        super(Utils.getFileAsString("./web_resources/searchbar.html"));
     }
 
     @Override

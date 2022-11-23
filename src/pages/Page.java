@@ -1,5 +1,6 @@
 package pages;
 
+import tools.DataManager;
 import tools.Utils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -14,6 +15,13 @@ class Page implements HttpHandler {
 
     public Page() {
         this.html = Utils.getFileAsString("./web_resources/base_html.html");
+    }
+
+    public Page(String ... html){
+        this.html = Utils.getFileAsString("./web_resources/base_html.html");
+        for(String element : html){
+            this.html = DataManager.insertHTML(element, this.html);
+        }
     }
 
     protected static Map<String,String> getUrlParams(HttpExchange exchange){

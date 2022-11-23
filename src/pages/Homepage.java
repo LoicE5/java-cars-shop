@@ -12,10 +12,11 @@ import static java.lang.Integer.parseInt;
 
 public class Homepage extends Page {
     public Homepage() {
-        super();
-        super.html = DataManager.insertHTML(Utils.getFileAsString("./web_resources/searchbar.html"),html);
-        super.html = DataManager.insertHTML(Utils.getFileAsString("./web_resources/track_order_bar.html"),html);
-        super.html = DataManager.insertHTML(showAvailableVehicles(null),html);
+        super(
+            Utils.getFileAsString("./web_resources/searchbar.html"),
+            Utils.getFileAsString("./web_resources/track_order_bar.html"),
+            showAvailableVehicles(null)
+        );
     }
 
     private static final Database db = DataManager.getDb();
