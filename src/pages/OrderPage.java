@@ -48,7 +48,7 @@ public class OrderPage extends Page {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String response = super.html;
+        String response = getHtml();
         Map<String,String> params = getUrlParams(exchange);
         int id;
         try {
@@ -57,7 +57,7 @@ public class OrderPage extends Page {
             id = 0;
         }
 
-        response = DataManager.insertHTML(showPurchaseForm(id),response);
+        response = insertHTML(showPurchaseForm(id),response);
 
         // Sending the response
         exchange.sendResponseHeaders(200, response.getBytes().length);

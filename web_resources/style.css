@@ -29,15 +29,15 @@ html {
     font-weight: bold;
 }
 
-.status-pending {
+.status-pending, .status-Pending {
     color: orange;
 }
 
-.status-validated {
+.status-validated, .status-Validated {
     color: green;
 }
 
-.status-delivered {
+.status-delivered, .status-Delivered {
     color: blue;
 }
 

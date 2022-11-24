@@ -26,14 +26,11 @@ public class DataManager {
         return defaultCreditRate;
     }
 
-    public static String insertHTML(String html, String body){
-        String newBody = body.replace("</body></html>","");
-        newBody += html;
-        newBody += "</body></html>";
-        return newBody;
-    }
-
     public static void automaticDiscountOnOldVehicles(){
         db.query("update vehicles set price = "+defaultDiscountedPrice+"*price, discounted = true where publishing_date < (curdate() - interval 2 month) and discounted = false;");
+    }
+
+    public static void automaticOrderStatusRefresh(){
+        db.query("update orders set status = 'delivered' where order_date < (curdate() - interval 2 week) and status != 'delivered'; ");
     }
 }

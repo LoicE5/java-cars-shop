@@ -18,7 +18,7 @@ public class SearchPage extends Page {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String response = super.html;
+        String response = getHtml();
         Map<String,String> params = getUrlParams(exchange);
         String query;
         try {
@@ -27,7 +27,7 @@ public class SearchPage extends Page {
             query = null;
         }
 
-        response = DataManager.insertHTML(Homepage.showAvailableVehicles(query),response);
+        response = insertHTML(Homepage.showAvailableVehicles(query),response);
 
         // Sending the response
         exchange.sendResponseHeaders(200, response.getBytes().length);

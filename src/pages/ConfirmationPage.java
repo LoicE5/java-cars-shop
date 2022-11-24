@@ -86,7 +86,7 @@ public class ConfirmationPage extends Page {
         int customer_id = parseInt(db.query("select id from customers where email = '"+p.get("email")+"';").get(0).get("id"));
 
         // We then create the order
-        db.queryWithException("insert into orders (vehicle_id, customer_id, status, credit, credit_amount, credit_rate, credit_currency, card_number, card_expiry, card_cvv, paid_tax, total_amount, amount_after_credit, address, quantity) values ("+p.get("vehicle_id")+", "+customer_id+", 'validated', "+p.get("credit_bool")+", "+p.get("credit_amount")+", "+ getDefaultCreditRate() +", 'EUR', '"+p.get("card_number")+"', '"+p.get("card_expiry")+"', "+p.get("card_cvv")+", "+p.get("paid_tax")+", "+p.get("total_amount")+", "+p.get("amount_after_credit")+", '"+p.get("address")+"', "+p.get("quantity")+");");
+        db.queryWithException("insert into orders (vehicle_id, customer_id, status, credit, credit_amount, credit_rate, credit_currency, card_number, card_expiry, card_cvv, paid_tax, total_amount, amount_after_credit, address, quantity, order_date) values ("+p.get("vehicle_id")+", "+customer_id+", 'validated', "+p.get("credit_bool")+", "+p.get("credit_amount")+", "+ getDefaultCreditRate() +", 'EUR', '"+p.get("card_number")+"', '"+p.get("card_expiry")+"', "+p.get("card_cvv")+", "+p.get("paid_tax")+", "+p.get("total_amount")+", "+p.get("amount_after_credit")+", '"+p.get("address")+"', "+p.get("quantity")+", curdate());");
 
         // We now set the vehicle stock column to stock minus the ordered quantity, so it is removed from the available list
         db.queryWithException("update vehicles set stock = stock-"+p.get("quantity")+" where id = "+p.get("vehicle_id")+";");
@@ -131,10 +131,10 @@ public class ConfirmationPage extends Page {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String response = super.html;
+        String response = getHtml();
         Map<String,String> params = getUrlParams(exchange);
 
-        response = DataManager.insertHTML(showOrderConfirmation(params),response);
+        response = insertHTML(showOrderConfirmation(params),response);
 
         // Sending the response
         exchange.sendResponseHeaders(200, response.getBytes().length);

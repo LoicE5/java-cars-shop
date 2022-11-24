@@ -38,7 +38,7 @@ public class TrackPage extends Page {
             output += Utils.getFileAsString("./web_resources/track_order_element.html")
             .replace("{%brand%}", order.get("brand"))
             .replace("{%model%}", order.get("model"))
-            .replace("{%status%}", order.get("status"))
+            .replace("{%status%}", Utils.capitalizeFirstLetter(order.get("status")))
             .replace("{%credit_bool%}",credit_status)
             .replace("{%credit_amount%}",order.get("credit_amount"))
             .replace("{%credit_currency%}",order.get("credit_currency"))
@@ -69,7 +69,7 @@ public class TrackPage extends Page {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String response = super.html;
+        String response = getHtml();
         Map<String,String> params = getUrlParams(exchange);
         String email;
         try {
@@ -78,7 +78,7 @@ public class TrackPage extends Page {
             email = "";
         }
 
-        response = DataManager.insertHTML(showTrackPage(email),response);
+        response = insertHTML(showTrackPage(email),response);
 
         // Sending the response
         exchange.sendResponseHeaders(200, response.getBytes().length);

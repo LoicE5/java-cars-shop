@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class Page implements HttpHandler {
-    public String html;
+    private String html;
 
     public Page() {
         this.html = Utils.getFileAsString("./web_resources/base_html.html");
@@ -20,8 +20,12 @@ class Page implements HttpHandler {
     public Page(String ... html){
         this.html = Utils.getFileAsString("./web_resources/base_html.html");
         for(String element : html){
-            this.html = DataManager.insertHTML(element, this.html);
+            this.html = insertHTML(element, this.html);
         }
+    }
+
+    protected String getHtml(){
+        return this.html;
     }
 
     protected static Map<String,String> getUrlParams(HttpExchange exchange){
@@ -44,6 +48,13 @@ class Page implements HttpHandler {
         }
 
         return result;
+    }
+
+    protected static String insertHTML(String html, String body){
+        String newBody = body.replace("</body></html>","");
+        newBody += html;
+        newBody += "</body></html>";
+        return newBody;
     }
 
     @Override
