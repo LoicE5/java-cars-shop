@@ -8,5 +8,8 @@
         "password": "root"
     },
     "default_credit_rate": 0.05,
-    "default_discounted_price": 0.8
+    "default_discounted_price": 0.8,
+    "images": {
+        "logo": "https://www.pixenli.com/image/0LcOf6Qp"
+    }
 }

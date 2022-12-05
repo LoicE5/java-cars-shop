@@ -45,6 +45,12 @@ public class Homepage extends Page {
                 output += "<div class='discounted-item'>Discount!</div>";
             }
 
+            output += "<div class='vehicle-element-container'>";
+
+            if(row.get("image") != null){
+                output += "<div style='background-image:url("+row.get("image")+");' class='vehicle-image'></div>";
+            }
+
             output += "<ul>" +
                     "<li>Brand : " + row.get("brand") + "</li>" +
                     "<li>Model : " + row.get("model") + "</li>" +
@@ -60,6 +66,7 @@ public class Homepage extends Page {
                     "</ul>";
 
             output += "<a href='/order?id=" + row.get("id") + "'>Buy</a>";
+            output += "</div>";
         }
 
         return output;

@@ -23,7 +23,7 @@ public class ConfirmationPage extends Page {
 
     private static final Database db = DataManager.getDb();
 
-    public static Map<String, Object> parseOrderParams(Map<String,String> params){
+    private static Map<String, Object> parseOrderParams(Map<String,String> params){
         Map<String, Object> output = new HashMap<String, Object>();
 
         output.put("first_name",Utils.escapeSQLChars(params.get("first_name")));
@@ -62,7 +62,7 @@ public class ConfirmationPage extends Page {
         return output;
     }
 
-    public static void insertOrderInDb(Map<String,String> params) throws Exception {
+    private static void insertOrderInDb(Map<String,String> params) throws Exception {
         Map<String, Object> p = parseOrderParams(params);
 
         if((int) p.get("card_expiry_year") < (int) p.get("current_year")){
@@ -92,7 +92,7 @@ public class ConfirmationPage extends Page {
         db.queryWithException("update vehicles set stock = stock-"+p.get("quantity")+" where id = "+p.get("vehicle_id")+";");
     }
 
-    public static String showOrderConfirmation(Map<String,String> params){
+    private static String showOrderConfirmation(Map<String,String> params){
         Map<String, Object> p = parseOrderParams(params);
         try {
             insertOrderInDb(params);
@@ -142,5 +142,6 @@ public class ConfirmationPage extends Page {
         os.write(response.getBytes());
         os.close();
     }
+
 }
 

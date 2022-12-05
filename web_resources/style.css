@@ -8,6 +8,18 @@ html {
     font-family: Arial, Helvetica, sans-serif
 }
 
+header {
+    display: flex;
+    max-height: 10vh;
+    align-items: center;
+    justify-content: center;
+}
+
+header img {
+    max-height: inherit;
+    max-width: initial;
+}
+
 .hidden {
     display: none !important
 }
@@ -23,6 +35,15 @@ html {
     border-radius: 20px;
     padding: 10px;
     margin-bottom: 20px;
+}
+
+.vehicle-image {
+    border-radius: 10px;
+    height: 100px;
+    width: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .track-order-status {

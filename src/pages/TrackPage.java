@@ -21,7 +21,7 @@ public class TrackPage extends Page {
 
     private static final Database db = DataManager.getDb();
 
-    public static String showTrackPage(String email) {
+    private static String showTrackPage(String email) {
         String output = "<h1>Your orders</h1>";
         ArrayList<HashMap<String, String>> orders = db.query("select * from java_cars.orders o inner join java_cars.customers c on c.id = o.customer_id inner join java_cars.vehicles v on v.id = o.vehicle_id where c.email = '"+email+"';");
 

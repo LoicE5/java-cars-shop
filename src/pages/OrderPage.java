@@ -20,7 +20,7 @@ public class OrderPage extends Page {
 
     private static final Database db = DataManager.getDb();
 
-    public static String showPurchaseForm(int vehicleId) {
+    private static String showPurchaseForm(int vehicleId) {
         HashMap<String, String> query = db.query("select * from vehicles where stock > 0 and id = " + vehicleId + ";").get(0);
 
         String output = "<h1>Purchase a vehicle</h1>";
@@ -53,7 +53,7 @@ public class OrderPage extends Page {
         int id;
         try {
             id = parseInt(params.get("id"));
-        } catch(Exception e){
+        } catch(NumberFormatException e){
             id = 0;
         }
 

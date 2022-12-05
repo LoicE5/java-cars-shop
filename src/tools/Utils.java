@@ -2,6 +2,7 @@ package tools;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +22,7 @@ public class Utils {
         try {
             if(isRunningFromJar()){
                 String absoluteRoot = URLDecoder.decode((new File(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(".")).getPath())).getAbsolutePath());
-                Scanner scan= new Scanner(new FileReader(path.replace("./",absoluteRoot+"/")));
+                Scanner scan = new Scanner(new FileReader(path.replace("./",absoluteRoot+"/")));
                 StringBuilder output = new StringBuilder();
                 while(scan.hasNext()){
                     output.append(scan.next()).append(" ");
@@ -30,7 +31,7 @@ public class Utils {
             } else {
                 return Files.readString(Path.of(path));
             }
-        } catch (Exception e){
+        } catch (IOException e){
             System.out.println("Error in getFileAsString. Running from Jar : "+isRunningFromJar()+". "+e);
             return "";
         }
