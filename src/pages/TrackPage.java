@@ -23,7 +23,7 @@ public class TrackPage extends Page {
 
     private static String showTrackPage(String email) {
         String output = "<h1>Your orders</h1>";
-        ArrayList<HashMap<String, String>> orders = db.query("select * from java_cars.orders o inner join java_cars.customers c on c.id = o.customer_id inner join java_cars.vehicles v on v.id = o.vehicle_id where c.email = '"+email+"';");
+        ArrayList<HashMap<String, String>> orders = db.query("select *, o.id as o_id from java_cars.orders o inner join java_cars.customers c on c.id = o.customer_id inner join java_cars.vehicles v on v.id = o.vehicle_id where c.email = '"+email+"';");
 
         if(orders.isEmpty()){
             return output + "<h2 class='no-orders'>There is no order associated with this email address.</h2>";
@@ -34,6 +34,8 @@ public class TrackPage extends Page {
             if(parseInt(order.get("credit")) == 1){
                 credit_status = "Yes";
             }
+
+            int orderId = parseInt(order.get("id"));
 
             output += Utils.getFileAsString("./web_resources/track_order_element.html")
             .replace("{%brand%}", order.get("brand"))
@@ -60,7 +62,11 @@ public class TrackPage extends Page {
             .replace("{%publishing_date%}",order.get("publishing_date"))
             .replace("{%location%}",order.get("location"))
             .replace("{%currency%}",order.get("currency"))
-            .replace("{%quantity%}",order.get("quantity"));
+            .replace("{%quantity%}",order.get("quantity"))
+            .replace("{%sale_certificate%}",DocumentPage.allowedDocumentTypes[0])
+            .replace("{%registration_request%}",DocumentPage.allowedDocumentTypes[1])
+            .replace("{%order_sheet%}",DocumentPage.allowedDocumentTypes[2])
+            .replace("{%order_id%}",Utils.numberToString(orderId));
         }
 
         return output;
