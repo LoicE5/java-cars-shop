@@ -26,6 +26,8 @@ public class Main {
         server.createContext("/confirmation", new ConfirmationPage());
         server.createContext("/track", new TrackPage());
 
+        DocumentPage.createDocumentsPagesContexts(server);
+
         server.start();
         System.out.println("Server running");
     }

@@ -67,3 +67,30 @@ header img {
     font-weight: bold;
     font-style: italic;
 }
+
+/* Documents */
+
+fieldset {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 15px;
+}
+
+.text-centered {
+    text-align: center;
+}
+
+.static-input-wrap {
+    margin: 10px;
+}
+
+.document-titles-wrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    max-width: max-content;
+    margin: auto;
+}
+
+.document-titles-wrapper > * {
+    margin-bottom: 0px;
+}

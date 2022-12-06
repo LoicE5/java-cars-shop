@@ -124,7 +124,14 @@ public class ConfirmationPage extends Page {
                 .replace("{%credit_amount%}",Utils.numberToString((double)p.get("credit_amount")))
                 .replace("{%address%}",(String)p.get("address"));
 
-        // TODO ajouter les liens vers la carte grise et le reste (...)
+        int orderId = parseInt(db.query("select id from orders order by id desc limit 1").get(0).get("id"));
+
+        output += "<div class='documents-buttons-container'>" +
+                "<a href='/"+DocumentPage.allowedDocumentTypes[0]+"?order_id="+orderId+"'><button>Sale Certificate</button></a>" +
+                "<a href='/"+DocumentPage.allowedDocumentTypes[1]+"?order_id="+orderId+"'><button>Registration Request</button></a>" +
+                "<a href='/"+DocumentPage.allowedDocumentTypes[2]+"?order_id="+orderId+"'><button>Order Sheet</button></a>" +
+            "</div>";
+
         return output;
     }
 
