@@ -64,11 +64,14 @@ public class DocumentPage extends Page {
 
         Random rand = new Random();
 
+        String currentDate = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"-"+Calendar.getInstance().get(Calendar.MONTH)+"-"+Calendar.getInstance().get(Calendar.YEAR);
+
         for(int i=0; i<quantity; i++){
             output += "<fieldset><legend>Vehicle "+(i+1)+"</legend>"+
                 Utils.getFileAsString(documentPath)
                 .replace("{%registration_number%}",Utils.numberToString(rand.nextInt(1000000)))
                 .replace("{%purchase_date%}",data.get("order_date"))
+                .replace("{%order_date%}",data.get("order_date"))
                 .replace("{%brand%}",data.get("brand"))
                 .replace("{%model%}",data.get("model"))
                 .replace("{%meter%}",data.get("meter"))
@@ -79,6 +82,12 @@ public class DocumentPage extends Page {
                 .replace("{%first_name%}",data.get("first_name"))
                 .replace("{%company%}",data.get("company"))
                 .replace("{%birthdate%}",data.get("birthdate"))
+                .replace("{%type%}",data.get("type"))
+                .replace("{%address%}",data.get("address"))
+                .replace("{%vehicle_price%}",data.get("price"))
+                .replace("{%paid_tax%}",data.get("paid_tax"))
+                .replace("{%total_amount%}",data.get("total_amount"))
+                .replace("{%current_date%}",currentDate)
             +"</fieldset>";
         }
 
