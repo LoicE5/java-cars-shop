@@ -46,3 +46,21 @@ If you don't have make installed, you may install it via `sudo apt install make`
 ## Run using the CLI
 
 Open a terminal at the project's directory, then type : `java -classpath ./out/production/java-cars-shop:./lib/mysql-connector-java-8.0.30.jar:./lib/jackson-databind-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-core-2.13.3.jar Main`
+
+---
+
+### ***Testing environment***
+
+**OpenJdk**
+
+`
+openjdk version "17.0.5" 2022-10-18
+OpenJDK Runtime Environment (build 17.0.5+8-Ubuntu-2ubuntu122.04)
+OpenJDK 64-Bit Server VM (build 17.0.5+8-Ubuntu-2ubuntu122.04, mixed mode, sharing)
+`
+
+**MySQL**
+
+`
+mysql  Ver 8.0.31-0ubuntu0.22.04.1 for Linux on aarch64 ((Ubuntu))
+`
