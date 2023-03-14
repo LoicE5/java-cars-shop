@@ -1,3 +1,8 @@
+School project with a goal of building a Java Application (here using HttpServer and MySQL), to simulate a vehicles shop using Java.
+Two documents are available (in French language 🇫🇷) :
+- [dev.pdf](https://github.com/LoicE5/java-cars-shop/blob/main/doc/dev.pdf) - for further insight about the code and architecture of this project
+- [user.pdf](https://github.com/LoicE5/java-cars-shop/blob/main/doc/user.pdf) - to navigate in the interface and use the project
+
 > Group : Fares Ezzaouia & Loïc Etienne
 
 # Project execution
