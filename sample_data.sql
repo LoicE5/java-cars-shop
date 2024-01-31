@@ -16,11 +16,11 @@ create table customers
         unique (email)
 );
 
-INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (26, 'Loïc', 'Etienne', '2001-05-11', 'loic.etienne@corp.com', '0612345678', '');
-INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (27, 'Ezzaouia', 'Fares', '1998-01-01', 'fares.ezzaouia@corp.com', '0612345678', 'Ezzaouia Industries');
-INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (28, 'Bourdon', 'Maxime', '2000-11-25', 'maxime.bourdon@corp.com', '0612345678', 'Bourdon Corporation Limited');
-INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (29, 'Réault', 'Valentin', '2001-04-08', 'valentin.reault@corp.com', '0612345678', '');
-INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (30, 'Bourgi', 'Wael', '2001-09-18', 'wael.bourgi@corp.com', '0612345678', 'Bourgi Exports LLC');
+INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (26, 'Loïc', 'Etienne', '2000-01-01', 'loic.etienne@corp.com', '0612345678', 'Some company');
+INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (27, 'Someone', 'Anyone', '2000-01-01', 'someone.anyone@corp1.com', '0612345678', 'Other company');
+INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (28, 'Someone', 'Anyone', '2000-01-01', 'someone.anyone@corp2.com', '0612345678', 'Another company');
+INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (29, 'Someone', 'Anyone', '2000-01-01', 'someone.anyone@corp3.com', '0612345678', '');
+INSERT INTO java_cars.customers (id, last_name, first_name, birthdate, email, phone, company) VALUES (30, 'Someone', 'Anyone', '2000-01-01', 'someone.anyone@corp4.com', '0612345678', 'Something Exports LLC');
 
 create table vehicles
 (

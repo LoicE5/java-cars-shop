@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Brew MySQL" uuid="f737f621-1f41-45d8-ba6c-26734fbab04a">
+    <data-source source="LOCAL" name="Java-Shop" uuid="f737f621-1f41-45d8-ba6c-26734fbab04a">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <remarks>On localhost, via Brew</remarks>
+      <remarks>Via Brew MySQL</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/java_cars</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
